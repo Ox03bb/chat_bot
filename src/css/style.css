@@ -24,7 +24,7 @@ body{
 .msg_c{
     width: fit-content;
 }
-#me{
+.me{
     direction: rtl;
     text-align: right;
 }
@@ -36,12 +36,12 @@ body{
 
 }
 
-#me .msg_c{
+.me .msg_c{
     background-color: #1089FF;
     color: #fff;
 }
 
-#bot .msg_c{
+.bot .msg_c{
     background-color: #dcdcdc;
     color: #000;
     border-radius: 10px 10px 10px 0px;
