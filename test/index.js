@@ -1,6 +1,15 @@
 
-console.log("===============Start===============")
-const url2= "http://localhost:11434/api/chat"
+const url= "http://localhost:11434/api/chat"
+const data = {
+    model: "phi3",
+    messages: [
+        {
+            role: "user",
+            content: "how are you ??",
+        },
+    ],
+    stream: true,
+};
 
 async function fetchMenuItems() {
     const response =  await fetch(url);
@@ -26,10 +35,11 @@ function fetchMenuItems2() {
             });
         }
         catch{
-            console.log("aaaaaaaaaaaaa");
+            console.log("Error");
         }
         
 }
+
 
 async function postData(url = "", data = {}) {
     try {
@@ -122,7 +132,6 @@ async function getResponse(response, callback) {
     
 
     let partialLine = '';
-    console.log(reader);
 
     while (true) {
       const { done, value } = await reader.read();
@@ -148,26 +157,14 @@ async function getResponse(response, callback) {
     }
 }
 
-const url3 = "http://localhost:11434/api/chat";
-const data = {
-    model: "phi3",
-    messages: [
-        {
-            role: "user",
-            content: "hi,replay in 3 words",
-        },
-    ],
-    stream: true,
-};
+// getResponse(postDataMul(url, data), (response) => {
+//     console.log(response);
+// });
 
-postDataMul(url3, data)
-    .then((response) => {
-        getResponse(response, (parsedResponse) => {
-            
-            console.log("=");
-            console.log(parsedResponse);
-        });
-    })
-    .catch((error) => {
-        console.error(error);
+postDataMul(url,data).then(response => {
+    getResponse(response, (response) => {
+        // console.log(response.message.content);
+        process.stdout.write(response.message.content);
+       
     });
+});
