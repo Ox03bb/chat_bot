@@ -1,4 +1,5 @@
 
+
 const url= "http://localhost:11434/api/chat"
 const data = {
     model: "phi3",
@@ -12,28 +13,8 @@ const data = {
 };
 
 
-async function postData(url = "", data = {}) {
-    try {
-        const response = await fetch(url, {
-            method: "POST",
-            mode: "cors",
-            cache: "no-cache",
-            credentials: "same-origin",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            redirect: "follow",
-            referrerPolicy: "no-referrer",
-            body: JSON.stringify(data),
-        });
-        return response.json();
-    } catch (error) {
-        console.error(error);
-    }
-}
-
-
 async function postDataMul(url = "", data = {}) {
+    console.log("api.js/postDataMul");
     try {
         const response = await fetch(url, {
             method: "POST",
@@ -54,7 +35,7 @@ async function postDataMul(url = "", data = {}) {
 }
 
 async function getResponse(response, callback) {
-    
+    console.log("api.js/getResponse");
 
     const reader = response.body.getReader();
     
@@ -85,28 +66,29 @@ async function getResponse(response, callback) {
     }
 }
 
-// getResponse(postDataMul(url, data), (response) => {
-//     console.log(response);
-// });
-// var chat = document.getElementById("chat_b");
-
 function insrttml(id,word){
-    var chat = document.getElementById("chat_b");
-    chat.innerHTML +=` 
-        
-                <p>${word}</p>
+    var chat = document.getElementById("1");
+    chat.textContent += word;
 
-    `
 }
 
+// pass to this function all data
 
-postDataMul(url,data).then(response => {
-    getResponse(response, (response) => {
-        console.log(response.message.content);
 
-        insrttml(0,response.message.content);
-        // process.stdout.write(response.message.content);
-       
+
+async function rrr(data){
+    
+
+    postDataMul(url,data).then(response => {
+        getResponse(response, (response) => {
+
+            // console.log(response.message.content);
+            insrttml(1,response.message.content);
+            // process.stdout.write(response.message.content);
+        
+        });
     });
-});
+}
+
+// its run
 
