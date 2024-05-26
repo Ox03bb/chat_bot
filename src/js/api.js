@@ -5,7 +5,7 @@ const data = {
     messages: [
         {
             role: "user",
-            content: "how are you ??",
+            content: "hi",
         },
     ],
     stream: true,
@@ -30,49 +30,6 @@ async function postData(url = "", data = {}) {
     } catch (error) {
         console.error(error);
     }
-}
-
-async function postDataMul(url = "", data = {}) {
-    try {
-        const response = await fetch(url, {
-            method: "POST",
-            mode: "cors",
-            cache: "no-cache",
-            credentials: "same-origin",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            redirect: "follow",
-            referrerPolicy: "no-referrer",
-            body: JSON.stringify(data),
-        });
-        return response.json();
-    } catch (error) {
-        console.error(error);
-    }
-}
-
-async function getResponse(response, callback) {
-    const reader = response.body.getReader();
-    let partialLine = '';
-  
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) {
-        break;
-      }
-      // Decode the received value and split by lines
-      const textChunk = new TextDecoder().decode(value);
-      const lines = (partialLine + textChunk).split('\n');
-      partialLine = lines.pop(); // The last line might be incomplete
-  
-      for (const line of lines) {
-        if (line.trim() === '') continue;
-        const parsedResponse = JSON.parse(line);
-        callback(parsedResponse); // Process each response word
-      }
-    }
-
 }
 
 
@@ -131,13 +88,24 @@ async function getResponse(response, callback) {
 // getResponse(postDataMul(url, data), (response) => {
 //     console.log(response);
 // });
-var chat = document.getElementById("chat_b");
+// var chat = document.getElementById("chat_b");
+
+function insrttml(id,word){
+    var chat = document.getElementById("chat_b");
+    chat.innerHTML +=` 
+        
+                <p>${word}</p>
+
+    `
+}
 
 
 postDataMul(url,data).then(response => {
     getResponse(response, (response) => {
-        
-        process.stdout.write(response.message.content);
+        console.log(response.message.content);
+
+        insrttml(0,response.message.content);
+        // process.stdout.write(response.message.content);
        
     });
 });
